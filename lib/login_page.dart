@@ -91,6 +91,7 @@ class _LoginPageState extends State<LoginPage> {
             child: new TextField(
               textAlign: TextAlign.center,
               controller: _emailFilter,
+              style: TextStyle(color: Colors.white),
               decoration: new InputDecoration(
                 labelText: 'Email',
                 labelStyle: TextStyle(color: Colors.white),
@@ -107,6 +108,8 @@ class _LoginPageState extends State<LoginPage> {
           new Container(
             child: new TextField(
               controller: _passwordFilter,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
               decoration: new InputDecoration(
                 labelText: 'Mot de passe',
                 labelStyle: TextStyle(color: Colors.white),
