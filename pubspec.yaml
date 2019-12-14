@@ -39,6 +39,10 @@ flutter:
     - assets/8f91b942c680648023d75b40093fd8d5.jpg
     - assets/floor-parquet-pattern-172292.jpg
     - assets/madera_logo.png
+    - assets/devis.png
+    - assets/gomme.png
+    - assets/simu_3D.png
+    - assets/base_client.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
