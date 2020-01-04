@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontera/homepage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -7,6 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       home: new LoginPage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -24,8 +26,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordFilter = new TextEditingController();
   String _email = "";
   String _password = "";
-  FormType _form = FormType
-      .login; // our default setting is to login, and we should switch to creating an account when the user chooses to
+ // our default setting is to login, and we should switch to creating an account when the user chooses to
 
   _LoginPageState() {
     _emailFilter.addListener(_emailListen);
@@ -47,7 +48,6 @@ class _LoginPageState extends State<LoginPage> {
       _password = _passwordFilter.text;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
           SizedBox(
               height: 155.0,
               child:
-              Image.asset("assets/madera_logo.png", fit: BoxFit.contain)),
+                  Image.asset("assets/madera_logo.png", fit: BoxFit.contain)),
           new Container(
             child: new TextField(
               textAlign: TextAlign.center,
@@ -128,23 +128,60 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Erreur login"),
+          content: new Text("Le duo Email/Password ne correspond pas."),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Fermer"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void loginTest() {
+    var a = _email;
+    var b = _password;
+    if (a == 'test' && b == 'admin') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    } else {
+      _showDialog();
+    }
+  }
+
   Widget _buildButtons() {
     return new Container(
       child: new Column(
         children: <Widget>[
           new RaisedButton(
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)
-            ),
+                borderRadius: BorderRadius.circular(20.0)),
             child: new Text('Se connecter',
                 style: TextStyle(fontWeight: FontWeight.bold)),
-            onPressed: _loginPressed,
+            onPressed: () {
+              loginTest();
+            },
           ),
           new FlatButton(
             child: new Text(
               'Mot de passe oublié ?',
               style:
-              TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             onPressed: _passwordReset,
           )
@@ -154,11 +191,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // These functions can self contain any user auth logic required, they all have access to _email and _password
-
-  void _loginPressed() {
-    print('The user wants to login with $_email and $_password');
-  }
-
   void _passwordReset() {
     print("The user wants a password reset request sent to $_email");
   }
