@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontera/homepage.dart';
 
 void main() => runApp(new MyApp());
 
