@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontera/services/api/api.dart';
+import 'package:frontera/services/api/httpRequest.dart';
+import 'package:frontera/services/api/userService.dart';
 import 'homepage.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(new MyApp());
 
@@ -26,7 +30,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordFilter = new TextEditingController();
   String _email = "";
   String _password = "";
- // our default setting is to login, and we should switch to creating an account when the user chooses to
+
+  // our default setting is to login, and we should switch to creating an account when the user chooses to
 
   _LoginPageState() {
     _emailFilter.addListener(_emailListen);
@@ -151,15 +156,17 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void loginTest() {
-    var a = _email;
-    var b = _password;
-    if (a == 'test' && b == 'admin') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
-    } else {
+  Future loginTest() async {
+    try {
+      if (await UserService.login("maxime@madera.fr", "azertyyy")) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } else {
+        _showDialog();
+      }
+    } catch (InvalidCredentialsException) {
       _showDialog();
     }
   }
