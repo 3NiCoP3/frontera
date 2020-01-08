@@ -158,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future loginTest() async {
     try {
-      if (await UserService.login("maxime@madera.fr", "azertyyy")) {
+      if (await UserService.login(_email, _password)) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
