@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class RoundedButton extends StatelessWidget {
   String text;
   String img;
+  Widget link;
 
-  RoundedButton(this.text, this.img);
+  RoundedButton(this.text, this.img, this.link);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,12 @@ class RoundedButton extends StatelessWidget {
               width: 170.0,
               height: 170.0,
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => link),
+                  );
+                },
               ),
             ),
           ),

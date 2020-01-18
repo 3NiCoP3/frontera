@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontera/devis_page.dart';
 import 'components/roundedButton.dart';
 
 
@@ -45,8 +46,10 @@ class HomePageState extends State<HomePage> {
         controller: searchFilter,
         style: TextStyle(color: Colors.white),
         decoration: new InputDecoration(
+          filled: true,
+          fillColor: Colors.black38,
           labelText: 'Recherchez ici ...',
-          labelStyle: TextStyle(color: Colors.grey),
+          labelStyle: TextStyle(color: Colors.white),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white, width: 3.0),
               borderRadius: BorderRadius.circular(62.00)),
@@ -62,9 +65,9 @@ class HomePageState extends State<HomePage> {
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
-      RoundedButton('Création \nde Devis', 'assets/devis.png'),
+      RoundedButton('Création \nde Devis', 'assets/devis.png', DevisPage()),
       VerticalDivider(color: Colors.transparent, width: 40.0),
-      RoundedButton('Modification \nde Devis', 'assets/gomme.png'),
+      RoundedButton('Modification \nde Devis', 'assets/gomme.png', null),
     ],
   );
 
@@ -73,9 +76,9 @@ class HomePageState extends State<HomePage> {
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
-      RoundedButton('Simulateur\n 3D', 'assets/simu_3D.png'),
+      RoundedButton('Simulateur\n 3D', 'assets/simu_3D.png', null),
       VerticalDivider(color: Colors.transparent, width: 40.0),
-      RoundedButton('Base Clients', 'assets/base_client.png'),
+      RoundedButton('Base Clients', 'assets/base_client.png', null),
     ],
   );
 
