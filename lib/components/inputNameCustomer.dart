@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:frontera/components/user.dart';
-import 'package:frontera/devis_page.dart';
+import 'package:frontera/services/api/userService.dart';
+
+typedef NameCallback = void Function(String name);
 
 class InputNameCustomer extends StatelessWidget {
-  String text;
-  double width;
 
+  final NameCallback onNameChoosed;
   final TextEditingController nameController = new TextEditingController();
 
-  InputNameCustomer(this.text, this.width);
+  InputNameCustomer({this.onNameChoosed});
 
 @override
 Widget build(BuildContext context) {
   return Container(
-    width: width,
+    width: 190,
     child: TextField(
       controller: nameController,
+      onSubmitted: (nameController) {
+        print(UserService.customer(nameController));
+        onNameChoosed(nameController);
+      },
       style: TextStyle(color: Colors.white),
       decoration: InputDecoration(
         filled: true,
@@ -26,7 +30,7 @@ Widget build(BuildContext context) {
         enabledBorder:
         OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
         labelStyle: TextStyle(color: Colors.white),
-        labelText: text,
+        labelText: "Nom",
       ),
     ),
   );

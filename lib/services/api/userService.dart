@@ -1,5 +1,5 @@
+import 'dart:convert';
 import 'package:http/http.dart';
-
 import 'Exceptions/InvalidCredentialsException.dart';
 import 'api.dart';
 import 'httpRequest.dart';
@@ -26,9 +26,10 @@ class UserService extends Api {
       throw new InvalidCredentialsException();
   }
 
-  static customerName(String name) async {
+  static customer(String name) async {
     var response = await Api.call(
-        new HttpRequest(HttpVerb.post, "client", {"last_name": name}));
-    return response;
+        new HttpRequest(HttpVerb.get, "clients", {"last_name": name}));
+    print(jsonDecode(response.body)[0]);
+    return jsonDecode(response.body)[0];
   }
 }

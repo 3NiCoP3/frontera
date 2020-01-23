@@ -8,7 +8,6 @@ import 'package:frontera/components/inputCompanyCustomer.dart';
 import 'package:frontera/components/inputModule.dart';
 import 'package:frontera/components/inputDimension.dart';
 import 'package:frontera/components/inputGamme.dart';
-import 'package:frontera/components/testTable.dart';
 import 'package:frontera/components/testDataTable.dart';
 
 void main() => runApp(MyApp());
@@ -33,6 +32,7 @@ class DevisPageState extends State<DevisPage> {
   final TextEditingController searchFilter = new TextEditingController();
 
   String search = "";
+  String clientName = "";
 
   DevisPageState() {
     searchFilter.addListener(searchListen);
@@ -73,7 +73,6 @@ class DevisPageState extends State<DevisPage> {
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
-      InputNameCustomer('Nom', 190),
       VerticalDivider(color: Colors.transparent, width: 10.0),
       InputFirstNameCustomer('Prénom', 190),
       VerticalDivider(color: Colors.transparent, width: 10.0),
@@ -106,18 +105,6 @@ class DevisPageState extends State<DevisPage> {
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
       InputNbr('Nbr', 100),
-    ],
-  );
-
-  Widget identityCustomer = new Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: <Widget>[
-      Text("Nom : ", style: TextStyle(color: Colors.white)),
-      VerticalDivider(color: Colors.transparent, width: 10.0),
-      Text("Prénom : ", style: TextStyle(color: Colors.white)),
-      VerticalDivider(color: Colors.transparent, width: 10.0),
-      Text("Société : ", style: TextStyle(color: Colors.white)),
     ],
   );
 
@@ -176,7 +163,24 @@ class DevisPageState extends State<DevisPage> {
                       child: Image.asset("assets/madera_logo.png",
                           fit: BoxFit.contain)),
                   SizedBox(height: 5.0),
-                  identity,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      InputNameCustomer(
+                        onNameChoosed: (String name) {
+                          print(name);
+                          setState(() {
+                            clientName = name;
+                          });
+                        },
+                      ),
+                      VerticalDivider(color: Colors.transparent, width: 10.0),
+                      InputFirstNameCustomer('Prénom', 190),
+                      VerticalDivider(color: Colors.transparent, width: 10.0),
+                      InputCompanyCustomer('Société', 190),
+                    ],
+                  ),
                   SizedBox(height: 5.0),
                   validCustomer(),
                   SizedBox(height: 5.0),
@@ -190,7 +194,18 @@ class DevisPageState extends State<DevisPage> {
                   SizedBox(height: 5.0),
                   validComposant(),
                   SizedBox(height: 10.0),
-                  identityCustomer,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      new Text("Nom : " + clientName,
+                          style: TextStyle(color: Colors.white)),
+                      VerticalDivider(color: Colors.transparent, width: 10.0),
+                      Text("Prénom : ", style: TextStyle(color: Colors.white)),
+                      VerticalDivider(color: Colors.transparent, width: 10.0),
+                      Text("Société : ", style: TextStyle(color: Colors.white)),
+                    ],
+                  ),
                   SizedBox(height: 10.0),
                   TestDataTable(),
                 ],
