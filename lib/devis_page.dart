@@ -1,33 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:frontera/devis_page.dart';
-import 'components/roundedButton.dart';
-
+import 'package:flutter/painting.dart';
+import 'package:frontera/components/customerAutoComplete.dart';
+import 'package:frontera/components/inputGeo.dart';
+import 'package:frontera/components/inputNbr.dart';
+import 'package:frontera/components/inputNameCustomer.dart';
+import 'package:frontera/components/inputFirstNameCustomer.dart';
+import 'package:frontera/components/inputCompanyCustomer.dart';
+import 'package:frontera/components/inputModule.dart';
+import 'package:frontera/components/inputDimension.dart';
+import 'package:frontera/components/inputGamme.dart';
+import 'package:frontera/components/testDataTable.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
-      home: HomePage(),
+      home: DevisPage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
+class DevisPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new HomePageState();
+  State<StatefulWidget> createState() => new DevisPageState();
 }
 
-class HomePageState extends State<HomePage> {
+class DevisPageState extends State<DevisPage> {
   final TextEditingController searchFilter = new TextEditingController();
 
   String search = "";
+  String clientName = "";
 
-  HomePageState() {
+  DevisPageState() {
     searchFilter.addListener(searchListen);
   }
 
@@ -48,7 +56,8 @@ class HomePageState extends State<HomePage> {
         decoration: new InputDecoration(
           filled: true,
           fillColor: Colors.black38,
-          labelText: 'Recherchez ici ...',
+          prefixIcon: Icon(Icons.search, color: Colors.white),
+          labelText: 'Recherchez un composant ...',
           labelStyle: TextStyle(color: Colors.white),
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white, width: 3.0),
@@ -61,24 +70,43 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  Widget upSection = new Row(
+  Widget identity = new Row(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
-      RoundedButton('Création \nde Devis', 'assets/devis.png', DevisPage()),
-      VerticalDivider(color: Colors.transparent, width: 40.0),
-      RoundedButton('Modification \nde Devis', 'assets/gomme.png', null),
+      InputNameCustomer(),
+      VerticalDivider(color: Colors.transparent, width: 10.0),
+      InputFirstNameCustomer(),
+      VerticalDivider(color: Colors.transparent, width: 10.0),
+      InputCompanyCustomer(),
     ],
   );
 
-
-  Widget downSection = new Row(
+  Widget modules = new Row(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
-      RoundedButton('Simulateur\n 3D', 'assets/simu_3D.png', null),
-      VerticalDivider(color: Colors.transparent, width: 40.0),
-      RoundedButton('Base Clients', 'assets/base_client.png', null),
+      InputModule('Module', 285),
+      VerticalDivider(color: Colors.transparent, width: 10.0),
+      InputDimension('Dimension L x l x h', 285),
+    ],
+  );
+
+  Widget lastline = new Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+      InputGamme('Choix de la gamme', 285),
+      VerticalDivider(color: Colors.transparent, width: 10.0),
+      InputGeo('Position Géographique', 285),
+    ],
+  );
+
+  Widget nombre = new Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+      InputNbr('Nbr', 100),
     ],
   );
 
@@ -98,27 +126,18 @@ class HomePageState extends State<HomePage> {
           fit: StackFit.expand,
           children: <Widget>[
             Positioned(
-              child: Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    upSection,
-                    SizedBox(height: 50.0),
-                    downSection
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
               child: Column(
                 children: <Widget>[
                   SizedBox(
                       height: 70.0,
                       child: Image.asset("assets/madera_logo.png",
                           fit: BoxFit.contain)),
-                  SizedBox(height: 10.0),
-                  searchBar()
+                  SizedBox(height: 10.00),
+                  CustomersAutoComplete(),
+                  SizedBox(height: 10.00),
+                  identity,
+                  SizedBox(height: 10.00),
+                  TestDataTable(),
                 ],
               ),
             ),

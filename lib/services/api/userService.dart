@@ -1,13 +1,11 @@
+import 'dart:convert';
 import 'package:http/http.dart';
-
 import 'Exceptions/InvalidCredentialsException.dart';
 import 'api.dart';
 import 'httpRequest.dart';
 
 class UserService extends Api {
-
-  static _extractSessionId(Response response){
-
+  static _extractSessionId(Response response) {
     var str = response.headers["set-cookie"];
     const start = "JSESSIONID=";
     const end = ";";
@@ -21,9 +19,17 @@ class UserService extends Api {
   static login(String login, String password) async {
     var response = await Api.call(new HttpRequest(
         HttpVerb.post, "login", {"username": login, "password": password}));
-    if (response.statusCode == 200){
+    if (response.statusCode == 200) {
       Api.setSessionId(_extractSessionId(response));
       return true;
-    } else throw new InvalidCredentialsException();
+    } else
+      throw new InvalidCredentialsException();
+  }
+
+  static customer(String name) async {
+    var response = await Api.call(
+        new HttpRequest(HttpVerb.get, "clients", {"last_name": name}));
+    print(jsonDecode(response.body)[0]);
+    return jsonDecode(response.body)[0];
   }
 }
