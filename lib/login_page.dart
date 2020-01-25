@@ -156,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future loginTest() async {
+  Future login() async {
     try {
       if (await UserService.login(_email, _password)) {
         Navigator.push(
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
             child: new Text('Se connecter',
                 style: TextStyle(fontWeight: FontWeight.bold)),
             onPressed: () {
-              loginTest();
+              login();
             },
           ),
           new FlatButton(
