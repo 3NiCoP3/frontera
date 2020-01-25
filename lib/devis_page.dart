@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:frontera/components/customerAutoComplete.dart';
 import 'package:frontera/components/inputGeo.dart';
 import 'package:frontera/components/inputNbr.dart';
 import 'package:frontera/components/inputNameCustomer.dart';
@@ -73,10 +74,11 @@ class DevisPageState extends State<DevisPage> {
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
+      InputNameCustomer(),
       VerticalDivider(color: Colors.transparent, width: 10.0),
-      InputFirstNameCustomer('Prénom', 190),
+      InputFirstNameCustomer(),
       VerticalDivider(color: Colors.transparent, width: 10.0),
-      InputCompanyCustomer('Société', 190),
+      InputCompanyCustomer(),
     ],
   );
 
@@ -108,38 +110,6 @@ class DevisPageState extends State<DevisPage> {
     ],
   );
 
-  Widget validComposant() {
-    return new Container(
-      child: new Column(
-        children: <Widget>[
-          new RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
-            child: new Text('Valider Composant',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget validCustomer() {
-    return new Container(
-      child: new Column(
-        children: <Widget>[
-          new RaisedButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)),
-            child: new Text('Valider Client',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,51 +132,11 @@ class DevisPageState extends State<DevisPage> {
                       height: 70.0,
                       child: Image.asset("assets/madera_logo.png",
                           fit: BoxFit.contain)),
-                  SizedBox(height: 5.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      InputNameCustomer(
-                        onNameChoosed: (String name) {
-                          print(name);
-                          setState(() {
-                            clientName = name;
-                          });
-                        },
-                      ),
-                      VerticalDivider(color: Colors.transparent, width: 10.0),
-                      InputFirstNameCustomer('Prénom', 190),
-                      VerticalDivider(color: Colors.transparent, width: 10.0),
-                      InputCompanyCustomer('Société', 190),
-                    ],
-                  ),
-                  SizedBox(height: 5.0),
-                  validCustomer(),
-                  SizedBox(height: 5.0),
-                  searchBar(),
-                  SizedBox(height: 5.0),
-                  modules,
-                  SizedBox(height: 5.0),
-                  lastline,
-                  SizedBox(height: 5.0),
-                  nombre,
-                  SizedBox(height: 5.0),
-                  validComposant(),
-                  SizedBox(height: 10.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      new Text("Nom : " + clientName,
-                          style: TextStyle(color: Colors.white)),
-                      VerticalDivider(color: Colors.transparent, width: 10.0),
-                      Text("Prénom : ", style: TextStyle(color: Colors.white)),
-                      VerticalDivider(color: Colors.transparent, width: 10.0),
-                      Text("Société : ", style: TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                  SizedBox(height: 10.0),
+                  SizedBox(height: 10.00),
+                  CustomersAutoComplete(),
+                  SizedBox(height: 10.00),
+                  identity,
+                  SizedBox(height: 10.00),
                   TestDataTable(),
                 ],
               ),

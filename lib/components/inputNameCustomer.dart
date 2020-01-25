@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontera/services/api/userService.dart';
 
 typedef NameCallback = void Function(String name);
 
@@ -17,18 +16,14 @@ Widget build(BuildContext context) {
     child: TextField(
       controller: nameController,
       onSubmitted: (nameController) {
-        print(UserService.customer(nameController));
         onNameChoosed(nameController);
       },
       style: TextStyle(color: Colors.white),
       decoration: InputDecoration(
+        enabled: false,
         filled: true,
         fillColor: Colors.black38,
-        prefixIcon: Icon(Icons.search, color: Colors.white),
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white, width: 3.0)),
-        enabledBorder:
-        OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+        prefixIcon: Icon(Icons.person, color: Colors.white),
         labelStyle: TextStyle(color: Colors.white),
         labelText: "Nom",
       ),
