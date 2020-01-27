@@ -11,6 +11,9 @@ import 'package:frontera/components/inputDimension.dart';
 import 'package:frontera/components/inputGamme.dart';
 import 'package:frontera/components/testDataTable.dart';
 
+import 'classes/module.dart';
+import 'components/moduleComponent.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -45,6 +48,12 @@ class DevisPageState extends State<DevisPage> {
     } else {
       search = searchFilter.text;
     }
+  }
+
+  void addModuleListener(Module selectedModule){
+    print("===============================");
+    print(selectedModule);
+    print(selectedModule.name);
   }
 
   Widget searchBar() {
@@ -137,6 +146,7 @@ class DevisPageState extends State<DevisPage> {
                   SizedBox(height: 10.00),
                   identity,
                   SizedBox(height: 10.00),
+                  ModuleComponent(),
                   TestDataTable(),
                 ],
               ),
