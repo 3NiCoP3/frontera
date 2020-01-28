@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontera/components/customerIdentityComponent.dart';
 import 'package:http/http.dart' as http;
 import '../classes/customer.dart';
 import 'dart:convert';
@@ -13,6 +14,8 @@ class CustomersAutoComplete extends StatefulWidget {
 
 class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
   AutoCompleteTextField searchTextField;
+
+  List<Customer> selectedCustomer = [];
 
   GlobalKey<AutoCompleteTextFieldState<Customer>> key = new GlobalKey();
 
@@ -105,6 +108,8 @@ class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
                   },
                   itemSubmitted: (item) {
                     setState(() {
+                      print(item);
+                      selectedCustomer.add(item);
                       searchTextField.textField.controller.text =
                           item.lastName + item.firstName + item.emailAddress;
                     });
@@ -113,6 +118,8 @@ class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
                     return row(item);
                   },
                 ),
+          SizedBox(height: 10.00),
+          CustomerIdentity(selectedCustomer),
         ],
       ),
     );

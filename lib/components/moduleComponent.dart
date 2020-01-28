@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontera/classes/module.dart';
 import 'package:frontera/services/api/moduleService.dart';
-import 'package:http/http.dart' as http;
-import '../classes/customer.dart';
-import 'dart:convert';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-
 import 'ModuleDataTable.dart';
 
 class ModuleComponent extends StatefulWidget {
@@ -15,9 +11,12 @@ class ModuleComponent extends StatefulWidget {
 
 class _ModuleComponentState extends State<ModuleComponent> {
   AutoCompleteTextField searchTextField;
+
   List<Module> selectedModules = [];
+
   GlobalKey<AutoCompleteTextFieldState<Module>> searchModuleKey =
       new GlobalKey();
+
   static List<Module> modulesList = new List<Module>();
   bool loading = true;
 
@@ -102,21 +101,26 @@ class _ModuleComponentState extends State<ModuleComponent> {
                   },
                   itemSubmitted: (item) {
                     setState(() {
-
                       selectedModules.add(item);
                       searchTextField.textField.controller.text =
                           item.name + " : (" + item.reference + ")";
                     });
                   },
                   itemBuilder: (context, item) {
-                    return Text(
-                      "refernce : " + item.name,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                      ),
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Référence : " + item.name,
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],
                     );
                   },
                 ),
+          SizedBox(height: 10.00),
           ModuleDataTable(selectedModules),
         ],
       ),
