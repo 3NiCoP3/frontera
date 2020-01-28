@@ -14,6 +14,7 @@ class _ModuleComponentState extends State<ModuleComponent> {
 
   List<Module> selectedModules = [];
 
+  Module currentModule;
   GlobalKey<AutoCompleteTextFieldState<Module>> searchModuleKey =
       new GlobalKey();
 
@@ -101,7 +102,8 @@ class _ModuleComponentState extends State<ModuleComponent> {
                   },
                   itemSubmitted: (item) {
                     setState(() {
-                      selectedModules.add(item);
+                      currentModule = item;
+//                      selectedModules.add(item);
                       searchTextField.textField.controller.text =
                           item.name + " : (" + item.reference + ")";
                     });
@@ -121,6 +123,62 @@ class _ModuleComponentState extends State<ModuleComponent> {
                   },
                 ),
           SizedBox(height: 10.00),
+          new Text(currentModule!= null ? currentModule.name : ""),
+          new Row(
+            children: <Widget>[
+              new FlatButton(
+                child: new Text(
+                  ' - ',
+                  style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                onPressed: (){
+                  setState((){
+                    if (currentModule.count > 1){
+                      currentModule.count ++;
+                    }
+                  });
+
+                },
+              ),
+              new Text(currentModule != null ? currentModule.count.toString() : "0"),
+              new FlatButton(
+                child: new Text(
+                  ' + ',
+                  style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                onPressed: (){
+                  setState((){
+                      currentModule.count ++;
+                  });
+                },
+              ),
+              new FlatButton(
+                child: new Text("Ajouter"),
+                onPressed: (){
+                  setState((){
+                    if (currentModule != null){
+                      selectedModules.add(currentModule);
+                      print('YANDALE !!');
+                      print(selectedModules.length.toString());
+                      currentModule = null;
+                    }
+
+                  });
+                },
+              ),
+              new FlatButton(
+                child: new Text("Annuler"),
+                onPressed: (){
+                  setState((){
+                    currentModule = null;
+                  });
+                },
+              )
+            ],
+          ),
+
           ModuleDataTable(selectedModules),
         ],
       ),

@@ -8,6 +8,7 @@ class Module {
   String productRange;
   double priceWithVat;
   String moduleType;
+  int count;
 
   Module(
       {this.id,
@@ -18,7 +19,9 @@ class Module {
       this.thick,
       this.productRange,
       this.priceWithVat,
-      this.moduleType});
+      this.moduleType,
+      this.count,
+      });
 
   factory Module.fromJson(Map<String, dynamic> parsedJson) {
     return Module(
@@ -30,6 +33,8 @@ class Module {
         thick: parsedJson["thick"] as double,
         productRange: parsedJson["productRange"] as String,
         priceWithVat: parsedJson["priceWithVat"] as double,
-        moduleType: parsedJson["moduleType"] as String);
+        moduleType: parsedJson["moduleType"] as String,
+        count: 1
+    );
   }
 }
