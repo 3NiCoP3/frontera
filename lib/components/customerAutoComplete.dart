@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontera/components/customerIdentityComponent.dart';
+import 'package:frontera/services/api/EstimateService.dart';
 import 'package:http/http.dart' as http;
 import '../classes/customer.dart';
 import 'dart:convert';
@@ -107,6 +108,7 @@ class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
                     return a.lastName.compareTo(b.lastName);
                   },
                   itemSubmitted: (item) {
+                    EstimateService.setCustomer(item);
                     setState(() {
                       print(item);
                       selectedCustomer.add(item);

@@ -2,16 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:frontera/classes/module.dart';
 
+typedef ModuleCallBack = void Function(Module color);
+
 class ModuleDataTable extends StatelessWidget {
   List<Module> selectedModules;
-
-  ModuleDataTable(this.selectedModules);
+  final ModuleCallBack deleteModule;
+  ModuleDataTable(this.selectedModules, this.deleteModule);
 
   List<DataRow> rowModule() {
     List<DataRow> myList = [];
     for (var i = 0; i < selectedModules.length; i++) {
       myList.add(DataRow(cells: [
-        DataCell(Icon(Icons.delete, color: Colors.white)),
+        DataCell(
+          Icon(Icons.delete, color: Colors.white),
+          onTap: (){
+            print('==========================');
+            deleteModule(selectedModules[i]);
+          }
+        ),
         DataCell(Text(selectedModules[i].name,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 24))),

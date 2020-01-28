@@ -205,7 +205,7 @@ class _ModuleComponentState extends State<ModuleComponent> {
           SizedBox(height: 5.00),
           _buttons(),
           SizedBox(height: 10.00),
-          ModuleDataTable(selectedModules),
+//          ModuleDataTable(selectedModules),
         ],
       ),
     );
