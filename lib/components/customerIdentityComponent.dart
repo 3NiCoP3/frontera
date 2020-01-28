@@ -12,6 +12,7 @@ class CustomerIdentity extends StatelessWidget {
     List<DataRow> myList = [];
     for (var i = 0; i < selectedCustomer.length; i++) {
       myList.add(DataRow(cells: [
+        DataCell(Icon(Icons.delete, color: Colors.white)),
         DataCell(Text(selectedCustomer[i].lastName,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16))),
@@ -38,6 +39,7 @@ class CustomerIdentity extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: FittedBox(
           child: DataTable(columns: [
+            DataColumn(label: Text('')),
             DataColumn(
                 label: Text('Nom',
                     style: TextStyle(

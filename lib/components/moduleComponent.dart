@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:frontera/classes/module.dart';
 import 'package:frontera/services/api/moduleService.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
@@ -15,6 +16,7 @@ class _ModuleComponentState extends State<ModuleComponent> {
   List<Module> selectedModules = [];
 
   Module currentModule;
+
   GlobalKey<AutoCompleteTextFieldState<Module>> searchModuleKey =
       new GlobalKey();
 
@@ -39,32 +41,102 @@ class _ModuleComponentState extends State<ModuleComponent> {
     super.initState();
   }
 
-  Widget row(Module module) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          "Nom : " + module.name,
-          style: TextStyle(
-            fontSize: 16.0,
+  Widget _buttons() {
+    if (currentModule != null) {
+     return Column(
+        children: <Widget>[
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              new FlatButton(
+                color: Colors.lightGreen,
+                textColor: Colors.white,
+                highlightColor: Colors.greenAccent,
+                colorBrightness: Brightness.dark,
+                textTheme: ButtonTextTheme.primary,
+                shape: CircleBorder(),
+                child: new Text(
+                  ' + ',
+                  style: TextStyle(fontSize: 20),
+                ),
+                onPressed: () {
+                  setState(() {
+                    currentModule.count++;
+                  });
+                },
+              ),
+              new Text(
+                currentModule != null ? currentModule.count.toString() : "0",
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              ),
+              new FlatButton(
+                color: Colors.redAccent,
+                textColor: Colors.white,
+                highlightColor: Colors.deepOrangeAccent,
+                colorBrightness: Brightness.dark,
+                textTheme: ButtonTextTheme.primary,
+                shape: CircleBorder(),
+                child: new Text(
+                  ' - ',
+                  style: TextStyle(fontSize: 20),
+                ),
+                onPressed: () {
+                  setState(() {
+                    if (currentModule.count > 1) {
+                      currentModule.count--;
+                    }
+                  });
+                },
+              ),
+            ],
           ),
-        ),
-        SizedBox(
-          width: 3.0,
-        ),
-        Text(
-          "Prénom : " + module.name,
-          style: TextStyle(fontSize: 16.0),
-        ),
-        SizedBox(
-          width: 10.0,
-        ),
-        Text(
-          "Email : " + module.name,
-          style: TextStyle(fontSize: 16.0),
-        ),
-      ],
-    );
+          SizedBox(height: 10.00),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              new FlatButton(
+                color: Colors.lightGreen,
+                textColor: Colors.white,
+                highlightColor: Colors.greenAccent,
+                colorBrightness: Brightness.dark,
+                textTheme: ButtonTextTheme.primary,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0)),
+                child: new Text("Ajouter"),
+                onPressed: () {
+                  setState(() {
+                    if (currentModule != null) {
+                      selectedModules.add(currentModule);
+                      currentModule = null;
+                    }
+                  });
+                },
+              ),
+              VerticalDivider(color: Colors.transparent, width: 40.0),
+              new FlatButton(
+                color: Colors.redAccent,
+                textColor: Colors.white,
+                highlightColor: Colors.deepOrangeAccent,
+                colorBrightness: Brightness.dark,
+                textTheme: ButtonTextTheme.primary,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0)),
+                child: new Text("Annuler"),
+                onPressed: () {
+                  setState(() {
+                    currentModule = null;
+                  });
+                },
+              )
+            ],
+          ),
+        ],
+      );
+    } else {
+      return Text("");
+    }
   }
 
   @override
@@ -123,62 +195,16 @@ class _ModuleComponentState extends State<ModuleComponent> {
                   },
                 ),
           SizedBox(height: 10.00),
-          new Text(currentModule!= null ? currentModule.name : ""),
-          new Row(
-            children: <Widget>[
-              new FlatButton(
-                child: new Text(
-                  ' - ',
-                  style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                onPressed: (){
-                  setState((){
-                    if (currentModule.count > 1){
-                      currentModule.count ++;
-                    }
-                  });
-
-                },
-              ),
-              new Text(currentModule != null ? currentModule.count.toString() : "0"),
-              new FlatButton(
-                child: new Text(
-                  ' + ',
-                  style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                ),
-                onPressed: (){
-                  setState((){
-                      currentModule.count ++;
-                  });
-                },
-              ),
-              new FlatButton(
-                child: new Text("Ajouter"),
-                onPressed: (){
-                  setState((){
-                    if (currentModule != null){
-                      selectedModules.add(currentModule);
-                      print('YANDALE !!');
-                      print(selectedModules.length.toString());
-                      currentModule = null;
-                    }
-
-                  });
-                },
-              ),
-              new FlatButton(
-                child: new Text("Annuler"),
-                onPressed: (){
-                  setState((){
-                    currentModule = null;
-                  });
-                },
-              )
-            ],
+          new Text(
+            currentModule != null ? currentModule.name : "",
+            style: TextStyle(
+                fontSize: 24,
+                color: Colors.white,
+                backgroundColor: Colors.white12),
           ),
-
+          SizedBox(height: 5.00),
+          _buttons(),
+          SizedBox(height: 10.00),
           ModuleDataTable(selectedModules),
         ],
       ),

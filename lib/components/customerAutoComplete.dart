@@ -56,7 +56,7 @@ class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
           ),
         ),
         SizedBox(
-          width: 3.0,
+          width: 10.0,
         ),
         Text(
           "Prénom : " + customer.lastName,

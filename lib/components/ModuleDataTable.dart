@@ -24,7 +24,9 @@ class ModuleDataTable extends StatelessWidget {
         DataCell(Text('20',
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 24))),
-        DataCell(Text((selectedModules[i].priceWithVat * selectedModules[i].count).toString(),
+        DataCell(Text(
+            (selectedModules[i].priceWithVat * selectedModules[i].count)
+                .toString(),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 24))),
       ]));
@@ -44,12 +46,7 @@ class ModuleDataTable extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: FittedBox(
           child: DataTable(columns: [
-            DataColumn(
-                label: Text('Actions',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28))),
+            DataColumn(label: Text('')),
             DataColumn(
                 label: Text('Modules',
                     style: TextStyle(
