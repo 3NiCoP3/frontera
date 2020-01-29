@@ -6,7 +6,6 @@ import 'package:frontera/services/api/EstimateService.dart';
 import 'package:frontera/services/api/moduleService.dart';
 import 'classes/module.dart';
 import 'components/ModuleDataTable.dart';
-import 'components/moduleComponent.dart';
 import 'components/moduleCountSelector.dart';
 
 void main() => runApp(MyApp());
@@ -71,6 +70,12 @@ class DevisPageState extends State<DevisPage> {
     });
   }
 
+  annulation() {
+    setState(() {
+      currentModule = null;
+    });
+  }
+
   cancelModule() {
     setState(() {
       currentModule = null;
@@ -78,7 +83,6 @@ class DevisPageState extends State<DevisPage> {
   }
 
   deleteModule(Module module) {
-    print(module.reference);
     setState(() {
       selectedModules.remove(module);
     });
@@ -88,6 +92,123 @@ class DevisPageState extends State<DevisPage> {
   void initState() {
     getModules();
     super.initState();
+  }
+
+  void _showDialogAcceptation() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          backgroundColor: Colors.black26,
+          title: new Text(
+            "Valider le devis",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          content: new Text(
+            "Le devis va être sauvegardé et envoyé en base de données, vous pourez le modifier ultérieurement",
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              color: Colors.lightGreen,
+              textColor: Colors.white,
+              highlightColor: Colors.greenAccent,
+              colorBrightness: Brightness.dark,
+              textTheme: ButtonTextTheme.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: new Text(
+                "Valider",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                EstimateService.saveEstimate(modulesList);
+                _showDialogSend();
+              },
+            ),
+            new FlatButton(
+              color: Colors.redAccent,
+              textColor: Colors.white,
+              highlightColor: Colors.deepOrangeAccent,
+              colorBrightness: Brightness.dark,
+              textTheme: ButtonTextTheme.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: new Text(
+                "Fermer",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDialogSend() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          backgroundColor: Colors.black26,
+          title: new Text(
+            "Devis envoyé",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          content: new Text(
+            "Le devis de a bien été pris en compte et sauvegardé.",
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              color: Colors.redAccent,
+              textColor: Colors.white,
+              highlightColor: Colors.deepOrangeAccent,
+              colorBrightness: Brightness.dark,
+              textTheme: ButtonTextTheme.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: new Text(
+                "Fermer",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -112,9 +233,9 @@ class DevisPageState extends State<DevisPage> {
                       height: 70.0,
                       child: Image.asset("assets/madera_logo.png",
                           fit: BoxFit.contain)),
-                  SizedBox(height: 10.00),
+                  SizedBox(height: 40.00),
                   CustomersAutoComplete(),
-                  SizedBox(height: 10.00),
+                  SizedBox(height: 40.00),
                   Container(
                     child: Column(
                       children: <Widget>[
@@ -125,7 +246,7 @@ class DevisPageState extends State<DevisPage> {
                                 clearOnSubmit: true,
                                 suggestions: modulesList,
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 16.0),
+                                    color: Colors.white, fontSize: 16.0),
                                 decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.black38,
@@ -187,26 +308,30 @@ class DevisPageState extends State<DevisPage> {
                         ),
                         SizedBox(height: 5.00),
                         ModuleCountSelector(
-                          currentModule,
-                          addModule, //addModule
-                          removeModule, //removeModule
-                          validateModule, //validateModule
-                        ),
+                            currentModule,
+                            addModule, //addModule
+                            removeModule, //removeModule
+                            validateModule,
+                            annulation //validateModule
+                            ),
                         SizedBox(height: 10.00),
                         ModuleDataTable(selectedModules, deleteModule),
+                        SizedBox(height: 10.00),
                         new FlatButton(
                           color: Colors.lightGreen,
                           textColor: Colors.white,
                           highlightColor: Colors.greenAccent,
                           colorBrightness: Brightness.dark,
                           textTheme: ButtonTextTheme.primary,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0)),
 //                          shape: CircleBorder(),
                           child: new Text(
                             'Valider devis',
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
-                            EstimateService.saveEstimate(modulesList);
+                            _showDialogAcceptation();
                           },
                         )
                       ],

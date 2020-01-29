@@ -3,16 +3,21 @@ import 'package:frontera/classes/customer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+typedef CustomerCallBack = void Function(Customer customer);
+
 class CustomerIdentity extends StatelessWidget {
   List<Customer> selectedCustomer;
+  final CustomerCallBack deleteCustomer;
 
-  CustomerIdentity(this.selectedCustomer);
+  CustomerIdentity(this.selectedCustomer, this.deleteCustomer);
 
   List<DataRow> rowModule() {
     List<DataRow> myList = [];
     for (var i = 0; i < selectedCustomer.length; i++) {
       myList.add(DataRow(cells: [
-        DataCell(Icon(Icons.delete, color: Colors.white)),
+        DataCell(Icon(Icons.delete, color: Colors.white), onTap: () {
+          deleteCustomer(selectedCustomer[i]);
+        }),
         DataCell(Text(selectedCustomer[i].lastName,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16))),
@@ -39,21 +44,28 @@ class CustomerIdentity extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: FittedBox(
           child: DataTable(columns: [
-            DataColumn(label: Text('')),
+            DataColumn(
+                label: Text(
+              '',
+              textAlign: TextAlign.center,
+            )),
             DataColumn(
                 label: Text('Nom',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 18))),
             DataColumn(
                 label: Text('Prénom',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 18))),
             DataColumn(
                 label: Text('Email',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

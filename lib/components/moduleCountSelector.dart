@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:frontera/classes/module.dart';
 
-class ModuleCountSelector extends StatelessWidget{
+class ModuleCountSelector extends StatelessWidget {
   Module currentModule;
   VoidCallback addModule;
   VoidCallback removeModule;
   VoidCallback validate;
+  VoidCallback annulation;
 
-  ModuleCountSelector(this.currentModule, this.addModule, this.removeModule, this.validate);
+  ModuleCountSelector(
+      this.currentModule, this.addModule, this.removeModule, this.validate, this.annulation);
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +51,9 @@ class ModuleCountSelector extends StatelessWidget{
                   style: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-
-                    if (currentModule.count > 1) {
-                      removeModule();
-                    }
-
+                  if (currentModule.count > 1) {
+                    removeModule();
+                  }
                 },
               ),
             ],
@@ -73,13 +73,7 @@ class ModuleCountSelector extends StatelessWidget{
                     borderRadius: BorderRadius.circular(15.0)),
                 child: new Text("Ajouter"),
                 onPressed: () {
-//                  setState(() {
-//                    if (currentModule != null) {
-//                      selectedModules.add(currentModule);
-//                      currentModule = null;
-//                    }
-//                  });
-                validate();
+                  validate();
                 },
               ),
               VerticalDivider(color: Colors.transparent, width: 40.0),
@@ -93,9 +87,7 @@ class ModuleCountSelector extends StatelessWidget{
                     borderRadius: BorderRadius.circular(15.0)),
                 child: new Text("Annuler"),
                 onPressed: () {
-//                  setState(() {
-//                    currentModule = null;
-//                  });
+                 annulation();
                 },
               )
             ],

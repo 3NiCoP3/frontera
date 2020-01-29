@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontera/components/customerIdentityComponent.dart';
 import 'package:frontera/services/api/EstimateService.dart';
-import 'package:http/http.dart' as http;
+import 'package:frontera/services/api/customerService.dart';
 import '../classes/customer.dart';
 import 'dart:convert';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
@@ -25,8 +25,8 @@ class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
 
   void getCustomers() async {
     try {
-      final response = await http.get("http://awesome-dev.eu:8090/clients");
-      customers = loadCustomers(response.body);
+      customers = await CustomerService.getCustomers();
+
       setState(() {
         loading = false;
       });
@@ -44,6 +44,12 @@ class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
   void initState() {
     getCustomers();
     super.initState();
+  }
+
+  deleteCustomer(Customer customer) {
+    setState(() {
+      selectedCustomer.remove(customer);
+    });
   }
 
   Widget row(Customer customer) {
@@ -85,7 +91,7 @@ class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
                   key: key,
                   clearOnSubmit: true,
                   suggestions: customers,
-                  style: TextStyle(color: Colors.black, fontSize: 16.0),
+                  style: TextStyle(color: Colors.white, fontSize: 16.0),
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.black38,
@@ -110,7 +116,6 @@ class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
                   itemSubmitted: (item) {
                     EstimateService.setCustomer(item);
                     setState(() {
-                      print(item);
                       selectedCustomer.add(item);
                       searchTextField.textField.controller.text =
                           item.lastName + item.firstName + item.emailAddress;
@@ -121,7 +126,7 @@ class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
                   },
                 ),
           SizedBox(height: 10.00),
-          CustomerIdentity(selectedCustomer),
+          CustomerIdentity(selectedCustomer, deleteCustomer),
         ],
       ),
     );
