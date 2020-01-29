@@ -1,15 +1,12 @@
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:frontera/components/customerAutoComplete.dart';
-import 'package:frontera/components/inputGeo.dart';
-import 'package:frontera/components/inputNbr.dart';
-import 'package:frontera/components/inputNameCustomer.dart';
-import 'package:frontera/components/inputFirstNameCustomer.dart';
-import 'package:frontera/components/inputCompanyCustomer.dart';
-import 'package:frontera/components/inputModule.dart';
-import 'package:frontera/components/inputDimension.dart';
-import 'package:frontera/components/inputGamme.dart';
-import 'package:frontera/components/testDataTable.dart';
+import 'package:frontera/services/api/EstimateService.dart';
+import 'package:frontera/services/api/moduleService.dart';
+import 'classes/module.dart';
+import 'components/ModuleDataTable.dart';
+import 'components/moduleCountSelector.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,85 +27,189 @@ class DevisPage extends StatefulWidget {
 }
 
 class DevisPageState extends State<DevisPage> {
-  final TextEditingController searchFilter = new TextEditingController();
+  AutoCompleteTextField searchTextField;
+  List<Module> selectedModules = [];
+  Module currentModule;
+  GlobalKey<AutoCompleteTextFieldState<Module>> searchModuleKey =
+      new GlobalKey();
+  static List<Module> modulesList = new List<Module>();
+  bool loading = true;
 
-  String search = "";
-  String clientName = "";
+  void getModules() async {
+    try {
+      modulesList = await ModuleService.getModules();
 
-  DevisPageState() {
-    searchFilter.addListener(searchListen);
-  }
-
-  void searchListen() {
-    if (searchFilter.text.isEmpty) {
-      search = "";
-    } else {
-      search = searchFilter.text;
+      setState(() {
+        loading = false;
+      });
+    } catch (e) {
+      print("Error getting modules.");
     }
   }
 
-  Widget searchBar() {
-    return new Container(
-      child: new TextField(
-        textAlign: TextAlign.center,
-        controller: searchFilter,
-        style: TextStyle(color: Colors.white),
-        decoration: new InputDecoration(
-          filled: true,
-          fillColor: Colors.black38,
-          prefixIcon: Icon(Icons.search, color: Colors.white),
-          labelText: 'Recherchez un composant ...',
-          labelStyle: TextStyle(color: Colors.white),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white, width: 3.0),
-              borderRadius: BorderRadius.circular(62.00)),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-              borderRadius: BorderRadius.circular(62.00)),
-        ),
-      ),
+  addModule() {
+    setState(() {
+      currentModule.count++;
+    });
+  }
+
+  removeModule() {
+    if (currentModule.count > 1) {
+      setState(() {
+        currentModule.count--;
+      });
+    }
+  }
+
+  validateModule() {
+    setState(() {
+      if (currentModule != null) {
+        selectedModules.add(currentModule);
+        currentModule = null;
+      }
+    });
+  }
+
+  annulation() {
+    setState(() {
+      currentModule = null;
+    });
+  }
+
+  cancelModule() {
+    setState(() {
+      currentModule = null;
+    });
+  }
+
+  deleteModule(Module module) {
+    setState(() {
+      selectedModules.remove(module);
+    });
+  }
+
+  @override
+  void initState() {
+    getModules();
+    super.initState();
+  }
+
+  void _showDialogAcceptation() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          backgroundColor: Colors.black26,
+          title: new Text(
+            "Valider le devis",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          content: new Text(
+            "Le devis va être sauvegardé et envoyé en base de données, vous pourez le modifier ultérieurement",
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              color: Colors.lightGreen,
+              textColor: Colors.white,
+              highlightColor: Colors.greenAccent,
+              colorBrightness: Brightness.dark,
+              textTheme: ButtonTextTheme.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: new Text(
+                "Valider",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                EstimateService.saveEstimate(modulesList);
+                _showDialogSend();
+              },
+            ),
+            new FlatButton(
+              color: Colors.redAccent,
+              textColor: Colors.white,
+              highlightColor: Colors.deepOrangeAccent,
+              colorBrightness: Brightness.dark,
+              textTheme: ButtonTextTheme.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: new Text(
+                "Fermer",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
-  Widget identity = new Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: <Widget>[
-      InputNameCustomer(),
-      VerticalDivider(color: Colors.transparent, width: 10.0),
-      InputFirstNameCustomer(),
-      VerticalDivider(color: Colors.transparent, width: 10.0),
-      InputCompanyCustomer(),
-    ],
-  );
-
-  Widget modules = new Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: <Widget>[
-      InputModule('Module', 285),
-      VerticalDivider(color: Colors.transparent, width: 10.0),
-      InputDimension('Dimension L x l x h', 285),
-    ],
-  );
-
-  Widget lastline = new Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: <Widget>[
-      InputGamme('Choix de la gamme', 285),
-      VerticalDivider(color: Colors.transparent, width: 10.0),
-      InputGeo('Position Géographique', 285),
-    ],
-  );
-
-  Widget nombre = new Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    crossAxisAlignment: CrossAxisAlignment.center,
-    children: <Widget>[
-      InputNbr('Nbr', 100),
-    ],
-  );
+  void _showDialogSend() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          backgroundColor: Colors.black26,
+          title: new Text(
+            "Devis envoyé",
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 22.0,
+                fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+          content: new Text(
+            "Le devis de a bien été pris en compte et sauvegardé.",
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              color: Colors.redAccent,
+              textColor: Colors.white,
+              highlightColor: Colors.deepOrangeAccent,
+              colorBrightness: Brightness.dark,
+              textTheme: ButtonTextTheme.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: new Text(
+                "Fermer",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -132,12 +233,110 @@ class DevisPageState extends State<DevisPage> {
                       height: 70.0,
                       child: Image.asset("assets/madera_logo.png",
                           fit: BoxFit.contain)),
-                  SizedBox(height: 10.00),
+                  SizedBox(height: 40.00),
                   CustomersAutoComplete(),
-                  SizedBox(height: 10.00),
-                  identity,
-                  SizedBox(height: 10.00),
-                  TestDataTable(),
+                  SizedBox(height: 40.00),
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        loading
+                            ? CircularProgressIndicator()
+                            : searchTextField = AutoCompleteTextField<Module>(
+                                key: searchModuleKey,
+                                clearOnSubmit: true,
+                                suggestions: modulesList,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.0),
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.black38,
+                                  prefixIcon:
+                                      Icon(Icons.search, color: Colors.white),
+                                  labelText: 'Rechercher un module ...',
+                                  labelStyle: TextStyle(color: Colors.white),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.white, width: 3.0),
+                                      borderRadius:
+                                          BorderRadius.circular(62.00)),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                      borderRadius:
+                                          BorderRadius.circular(62.00)),
+                                ),
+                                itemFilter: (item, query) {
+                                  return item.name
+                                      .toLowerCase()
+                                      .startsWith(query.toLowerCase());
+                                },
+                                itemSorter: (a, b) {
+                                  return a.name.compareTo(b.name);
+                                },
+                                itemSubmitted: (item) {
+                                  setState(() {
+                                    currentModule = item;
+//                      selectedModules.add(item);
+                                    searchTextField.textField.controller.text =
+                                        item.name +
+                                            " : (" +
+                                            item.reference +
+                                            ")";
+                                  });
+                                },
+                                itemBuilder: (context, item) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(
+                                        "Référence : " + item.name,
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                        SizedBox(height: 10.00),
+                        new Text(
+                          currentModule != null ? currentModule.name : "",
+                          style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.white,
+                              backgroundColor: Colors.white12),
+                        ),
+                        SizedBox(height: 5.00),
+                        ModuleCountSelector(
+                            currentModule,
+                            addModule, //addModule
+                            removeModule, //removeModule
+                            validateModule,
+                            annulation //validateModule
+                            ),
+                        SizedBox(height: 10.00),
+                        ModuleDataTable(selectedModules, deleteModule),
+                        SizedBox(height: 10.00),
+                        new FlatButton(
+                          color: Colors.lightGreen,
+                          textColor: Colors.white,
+                          highlightColor: Colors.greenAccent,
+                          colorBrightness: Brightness.dark,
+                          textTheme: ButtonTextTheme.primary,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0)),
+//                          shape: CircleBorder(),
+                          child: new Text(
+                            'Valider devis',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          onPressed: () {
+                            _showDialogAcceptation();
+                          },
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),

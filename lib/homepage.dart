@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontera/devis_page.dart';
 import 'components/roundedButton.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -70,7 +69,6 @@ class HomePageState extends State<HomePage> {
       RoundedButton('Modification \nde Devis', 'assets/gomme.png', null),
     ],
   );
-
 
   Widget downSection = new Row(
     mainAxisAlignment: MainAxisAlignment.center,

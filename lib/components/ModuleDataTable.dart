@@ -1,7 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:frontera/classes/module.dart';
 
-class TestDataTable extends StatelessWidget {
+typedef ModuleCallBack = void Function(Module module);
+
+class ModuleDataTable extends StatelessWidget {
+  List<Module> selectedModules;
+  final ModuleCallBack deleteModule;
+
+  ModuleDataTable(this.selectedModules, this.deleteModule);
+
+  List<DataRow> rowModule() {
+    List<DataRow> myList = [];
+    for (var i = 0; i < selectedModules.length; i++) {
+      myList.add(DataRow(cells: [
+        DataCell(Icon(Icons.delete, color: Colors.white), onTap: () {
+          deleteModule(selectedModules[i]);
+        }),
+        DataCell(Text(selectedModules[i].name,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 24))),
+        DataCell(Text(selectedModules[i].count.toString(),
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 24))),
+        DataCell(Text(selectedModules[i].priceWithVat.toString(),
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 24))),
+        DataCell(Text('20',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 24))),
+        DataCell(Text(
+            (selectedModules[i].priceWithVat * selectedModules[i].count)
+                .toString(),
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 24))),
+      ]));
+    }
+
+    return myList;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +51,7 @@ class TestDataTable extends StatelessWidget {
         scrollDirection: Axis.vertical,
         child: FittedBox(
           child: DataTable(columns: [
-            DataColumn(
-                label: Text('Actions',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 28))),
+            DataColumn(label: Text('')),
             DataColumn(
                 label: Text('Modules',
                     style: TextStyle(
@@ -50,26 +82,7 @@ class TestDataTable extends StatelessWidget {
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 28))),
-          ], rows: [
-            DataRow(cells: [
-              DataCell(Icon(Icons.delete, color: Colors.white)),
-              DataCell(Text('ijaoieznoefzefzefzefioanzoiena',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 24))),
-              DataCell(Text('8',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 24))),
-              DataCell(Text('9000',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 24))),
-              DataCell(Text('20',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 24))),
-              DataCell(Text('10800',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white, fontSize: 24))),
-            ]),
-          ]),
+          ], rows: rowModule()),
         ),
       ),
     );
