@@ -23,6 +23,7 @@ class Module {
       this.count,
       });
 
+
   factory Module.fromJson(Map<String, dynamic> parsedJson) {
     return Module(
         id: parsedJson["id"],

@@ -134,8 +134,8 @@ class DevisPageState extends State<DevisPage> {
                 textAlign: TextAlign.center,
               ),
               onPressed: () {
+                EstimateService.saveEstimate(selectedModules);
                 Navigator.of(context).pop();
-                EstimateService.saveEstimate(modulesList);
                 _showDialogSend();
               },
             ),
