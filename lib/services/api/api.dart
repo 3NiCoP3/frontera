@@ -6,53 +6,53 @@ class Api {
   static String _sessionId = "";
 
   static _makeRequest(String url, HttpRequest request) async {
-    switch (request.httpVerb) {
-      case HttpVerb.get:
-        {
-          return await http.get(url, headers: request.headers);
-        }
-        break;
+    switch(request.httpVerb) {
+      case HttpVerb.get: {
+        return await http.get(url, headers: request.headers);
+      }
+      break;
 
-      case HttpVerb.post:
-        {
-          return await http.post(url,
-              body: request.params, headers: request.headers);
-        }
-        break;
+      case HttpVerb.post: {
+        return await http.post(url, body: request.params, headers: request.headers);
+      }
+      break;
 
-      default:
-        {
-          print(" !! HTTP VERB UNKNOWN : " + request.httpVerb.toString());
-        }
-        break;
+      default: {
+        print(" !! HTTP VERB UNKNOWN : " + request.httpVerb.toString());
+      }
+      break;
     }
   }
 
   static _errorHandler(e) {
+    print("Ouuups !");
     print(e);
   }
 
   static call(HttpRequest request) async {
     var url = _url + request.route;
 
-    if (request.httpVerb == HttpVerb.get) {
+    if (request.httpVerb == HttpVerb.get){
       url += "?";
-      request.params.forEach((key, value) => url += key + "=" + value + "&");
+      request.params.forEach((key, value)=> url += key + "=" + value + "&");
     }
     request.headers['JSESSIONID'] = _sessionId;
+    if (request.headers["Content-Type"] == "application/json"){
+
+    }
 
     try {
       return await _makeRequest(url, request);
-    } catch (e) {
+    }catch(e){
       return _errorHandler(e);
     }
   }
 
-  static setSessionId(String sessionId) {
+  static setSessionId(String sessionId){
     _sessionId = sessionId;
   }
 
-  static deleteSessionId() {
+  static deleteSessionId(){
     _sessionId = "";
   }
 }
