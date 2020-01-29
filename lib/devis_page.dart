@@ -2,6 +2,7 @@ import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:frontera/components/customerAutoComplete.dart';
+import 'package:frontera/homepage.dart';
 import 'package:frontera/services/api/EstimateService.dart';
 import 'package:frontera/services/api/moduleService.dart';
 import 'classes/module.dart';
@@ -229,10 +230,26 @@ class DevisPageState extends State<DevisPage> {
             Positioned(
               child: Column(
                 children: <Widget>[
-                  SizedBox(
-                      height: 70.0,
-                      child: Image.asset("assets/madera_logo.png",
-                          fit: BoxFit.contain)),
+                  Row(
+                    children: <Widget>[
+                      IconButton(
+                        icon: new Icon(Icons.arrow_back,
+                            color: Colors.white, size: 40),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                          );
+                        },
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                            height: 70.0,
+                            child: Image.asset("assets/madera_logo.png",
+                                fit: BoxFit.contain)),
+                      ),
+                    ],
+                  ),
                   SizedBox(height: 40.00),
                   CustomersAutoComplete(),
                   SizedBox(height: 40.00),
