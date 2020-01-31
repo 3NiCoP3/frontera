@@ -12,13 +12,16 @@ class DevisSearchDataTable extends StatelessWidget {
 
   DevisSearchDataTable(this.selectedEstimate, this.deleteEstimate);
 
-  _modules() async {
+  _modules(String reference) async {
     var estimates = await EstimateService.getEstimates();
     for (var i = 0; i < estimates.length; i++) {
-      for (var a = 0; a < estimates[i].modules.length; a++) {
-        print(estimates[i].modules[a].name);
-        return estimates[i].modules[a].name;
+      if (reference == estimates[i].reference){
+        return estimates[i].modules;
       }
+//      for (var a = 0; a < estimates[i].modules.length; a++) {
+//        print(estimates[i].modules[a].name);
+//        return estimates[i].modules[a].name;
+//      }
     }
   }
 
