@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:frontera/classes/Estimate.dart';
+import 'package:frontera/classes/customer.dart';
+import 'package:frontera/classes/module.dart';
 import 'package:frontera/services/api/EstimateService.dart';
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-import 'devisSearchDataTable.dart';
+import 'package:frontera/services/api/customerService.dart';
+import 'EstimateDisplay.dart';
+import 'customerIdentityComponent.dart';
+import 'moduleSearchDataTable.dart';
+
 
 class DevisSearchAutoComplete extends StatefulWidget {
   DevisSearchAutoComplete() : super();
@@ -13,8 +19,8 @@ class DevisSearchAutoComplete extends StatefulWidget {
 
 class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
   AutoCompleteTextField searchTextField;
-
-  List<Estimate> selectedEstimate = [];
+  List<Customer> estimateCustomer = [];
+  Estimate selectedEstimate;
 
   GlobalKey<AutoCompleteTextFieldState<Estimate>> key = new GlobalKey();
 
@@ -31,7 +37,16 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
       print("Error getting customers.");
     }
   }
-  
+
+  setCustomer()async{
+    Customer customer = await CustomerService.getCustomerById(selectedEstimate.clientId);
+    print(customer);
+    print(customer.lastName);
+    setState((){
+      estimateCustomer = [customer];
+    });
+  }
+
   @override
   void initState() {
     getEstimates();
@@ -40,8 +55,12 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
 
   deleteEstimate(Estimate estimate) {
     setState(() {
-      selectedEstimate.remove(estimate);
+     // selectedEstimate.remove(estimate);
     });
+  }
+
+  deleteModule(Module moduleToDelete){
+
   }
 
   Widget row(Estimate estimate) {
@@ -103,17 +122,21 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
             },
             itemSubmitted: (item) {
               setState(() {
-                selectedEstimate.add(item);
+                selectedEstimate = item;
                 searchTextField.textField.controller.text =
                     item.reference;
               });
+              setCustomer();
             },
             itemBuilder: (context, item) {
               return row(item);
             },
           ),
           SizedBox(height: 10.00),
-          DevisSearchDataTable(selectedEstimate, deleteEstimate),
+          if(estimateCustomer.length != 0) CustomerIdentity(estimateCustomer,(Customer c){}),
+          if(selectedEstimate!= null) EstimateDisplay(selectedEstimate),
+
+          ModuleSearchDataTable(selectedEstimate, deleteEstimate, deleteModule),
         ],
       ),
     );

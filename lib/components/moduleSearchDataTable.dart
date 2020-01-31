@@ -2,15 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:frontera/classes/Estimate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:frontera/classes/module.dart';
 import 'package:frontera/services/api/EstimateService.dart';
 
 typedef EstimateCallBack = void Function(Estimate estimate);
+typedef ModuleCallBack= void Function(Module estimate);
 
-class DevisSearchDataTable extends StatelessWidget {
-  List<Estimate> selectedEstimate;
+class ModuleSearchDataTable extends StatelessWidget {
+  Estimate selectedEstimate;
   final EstimateCallBack deleteEstimate;
+  final ModuleCallBack deleteModule;
 
-  DevisSearchDataTable(this.selectedEstimate, this.deleteEstimate);
+  ModuleSearchDataTable(this.selectedEstimate, this.deleteEstimate, this.deleteModule);
 
   _modules(String reference) async {
     var estimates = await EstimateService.getEstimates();
@@ -27,18 +30,22 @@ class DevisSearchDataTable extends StatelessWidget {
 
   List<DataRow> rowDevis() {
     List<DataRow> myList = [];
-    for (var i = 0; i < selectedEstimate.length; i++) {
+    //return immediatly if devis list is empty
+    if (selectedEstimate == null){
+      return myList;
+    }
+    for (var i = 0; i < selectedEstimate.modules.length; i++) {
       myList.add(DataRow(cells: [
         DataCell(Icon(Icons.delete, color: Colors.white), onTap: () {
-          deleteEstimate(selectedEstimate[i]);
+          deleteModule(selectedEstimate.modules[i]);
         }),
-        DataCell(Text(selectedEstimate[i].modules.toString(),
+        DataCell(Text(selectedEstimate.modules[i].name,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16))),
-        DataCell(Text(selectedEstimate[i].taxfreeTotalPrice.toString(),
+        DataCell(Text(selectedEstimate.modules[i].priceWithVat.toString(),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16))),
-        DataCell(Text(selectedEstimate[i].totalPriceIncTax.toString(),
+        DataCell(Text((selectedEstimate.modules[i].priceWithVat * 0.80).toString(),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16))),
       ]));

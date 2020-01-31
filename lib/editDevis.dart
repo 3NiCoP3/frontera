@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:frontera/components/devisSearchAutoComplete.dart';
+import 'components/moduleSearchAutoComplete.dart';
 import 'homepage.dart';
 
 void main() => runApp(MyApp());
