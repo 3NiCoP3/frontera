@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontera/services/api/EstimateService.dart';
-import 'package:frontera/services/api/api.dart';
-import 'package:frontera/services/api/httpRequest.dart';
 import 'package:frontera/services/api/userService.dart';
 import 'homepage.dart';
-import 'package:http/http.dart' as http;
 
 void main() => runApp(new MyApp());
 
@@ -95,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                   Image.asset("assets/madera_logo.png", fit: BoxFit.contain)),
           new Container(
             child: new TextField(
+              keyboardType: TextInputType.emailAddress,
               textAlign: TextAlign.center,
               controller: _emailFilter,
               style: TextStyle(color: Colors.white),

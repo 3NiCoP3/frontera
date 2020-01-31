@@ -293,7 +293,6 @@ class DevisPageState extends State<DevisPage> {
                                 itemSubmitted: (item) {
                                   setState(() {
                                     currentModule = item;
-//                      selectedModules.add(item);
                                     searchTextField.textField.controller.text =
                                         item.name +
                                             " : (" +
