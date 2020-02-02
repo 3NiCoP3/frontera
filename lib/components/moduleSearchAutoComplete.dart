@@ -88,8 +88,13 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
           "Client : " + estimate.customerName.toString(),
           style: TextStyle(fontSize: 16.0),
         ),
+        Text(
+          "-- -- -- -- -- -- -- -- -- -- --",
+          style: TextStyle(fontSize: 16.0),
+        ),
         SizedBox(
           width: 10.0,
+          height: 2.0,
         ),
       ],
     );
@@ -111,7 +116,7 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
               filled: true,
               fillColor: Colors.black38,
               prefixIcon: Icon(Icons.search, color: Colors.white),
-              labelText: 'Recherchez un devis ...',
+              labelText: 'Recherchez un client ...',
               labelStyle: TextStyle(color: Colors.white),
               focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white, width: 3.0),
@@ -121,9 +126,9 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
                   borderRadius: BorderRadius.circular(62.00)),
             ),
             itemFilter: (item, query) {
-              return item.reference
+              return item.customerName
                   .toLowerCase()
-                  .startsWith(query.toLowerCase());
+                  .contains(query.toLowerCase());
             },
             itemSorter: (a, b) {
               return a.reference.compareTo(b.reference);
