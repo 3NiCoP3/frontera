@@ -50,4 +50,25 @@ class EstimateService {
     }
     return estimatesList;
   }
+
+  static deleteModuleFromEstimate(int estimateId, int moduleId) async {
+    var response = await Api.call(new HttpRequest(
+        HttpVerb.post,
+        "estimate/delete_module",
+        jsonEncode({"estimateId": estimateId.toString(), "moduleId": moduleId.toString()}),
+        {"Content-Type": "application/json"}));
+    print(response);
+    print(response.statusCode);
+    print(response.body);
+  }
+
+  static deleteEstimate(int estimateId) async {
+    var response = await Api.call(new HttpRequest(
+        HttpVerb.post,
+        "estimate/delete",
+        jsonEncode({"estimateId": estimateId.toString()}),
+        {"Content-Type": "application/json"}));
+    print(response.statusCode);
+    print(response.body);
+  }
 }
