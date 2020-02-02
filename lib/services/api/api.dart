@@ -25,7 +25,6 @@ class Api {
   }
 
   static _errorHandler(e) {
-    print("Ouuups !");
     print(e);
   }
 
