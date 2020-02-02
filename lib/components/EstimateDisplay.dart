@@ -4,18 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 typedef DevisCallBack = void Function(Estimate customer);
+typedef EstimateCallBack = void Function(Estimate estimate);
 
 class EstimateDisplay extends StatelessWidget {
   Estimate estimate;
+  final EstimateCallBack deleteEstimate;
 //  final DevisCallBack deleteCustomer;
 
-  EstimateDisplay(this.estimate);
+  EstimateDisplay(this.estimate, this.deleteEstimate);
 
   List<DataRow> rowModule() {
     List<DataRow> myList = [];
       myList.add(DataRow(cells: [
         DataCell(Icon(Icons.delete, color: Colors.white), onTap: () {
-//          deleteCustomer(estimate);
+          deleteEstimate(estimate);
         }),
         DataCell(Text(estimate.reference,
             textAlign: TextAlign.center,

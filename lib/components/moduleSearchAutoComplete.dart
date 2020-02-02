@@ -24,13 +24,14 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
 
   GlobalKey<AutoCompleteTextFieldState<Estimate>> key = new GlobalKey();
 
-  static List<Estimate> estimates = new List<Estimate>();
+  List<Estimate> estimates = new List<Estimate>();
   bool loading = true;
 
   void getEstimates() async {
     try {
-      estimates = await EstimateService.getEstimates();
+      List<Estimate> estimateFromServer = await EstimateService.getEstimates();
       setState(() {
+        estimates = estimateFromServer;
         loading = false;
       });
     } catch (e) {
@@ -52,13 +53,22 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
   }
 
   deleteEstimate(Estimate estimate) {
+    print(estimate.id);
+    EstimateService.deleteEstimate(estimate.id);
+
     setState(() {
-     // selectedEstimate.remove(estimate);
+      selectedEstimate = null;
+      estimateCustomer = [];
+      loading = true;
     });
+    getEstimates();
   }
 
   deleteModule(Module moduleToDelete){
-
+    EstimateService.deleteModuleFromEstimate(selectedEstimate.id, moduleToDelete.id);
+    setState((){
+      selectedEstimate.modules.remove(moduleToDelete);
+    });
   }
 
   Widget row(Estimate estimate) {
@@ -75,7 +85,7 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
           width: 10.0,
         ),
         Text(
-          "Client : " + estimate.clientId.toString(),
+          "Client : " + estimate.customerName.toString(),
           style: TextStyle(fontSize: 16.0),
         ),
         SizedBox(
@@ -133,7 +143,7 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
           SizedBox(height: 10.00),
           if(estimateCustomer.length != 0) CustomerIdentity(estimateCustomer,(Customer c){}),
           SizedBox(height: 10.00),
-          if(selectedEstimate!= null) EstimateDisplay(selectedEstimate),
+          if(selectedEstimate!= null) EstimateDisplay(selectedEstimate, deleteEstimate),
           SizedBox(height: 10.00),
           ModuleSearchDataTable(selectedEstimate, deleteEstimate, deleteModule),
         ],

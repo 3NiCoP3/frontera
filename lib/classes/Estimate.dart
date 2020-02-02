@@ -11,6 +11,7 @@ class Estimate {
   double totalPriceIncTax;
   int clientId;
   int userId;
+  String customerName;
   List<Module> modules;
 
   Estimate(var rawEstimate) {
@@ -22,6 +23,7 @@ class Estimate {
     this.totalPriceIncTax = double.parse(rawEstimate["totalPriceIncTax"]);
     this.clientId = rawEstimate["clientId"];
     this.userId = rawEstimate["userId"];
+    this.customerName = rawEstimate["customerName"];
     this.modules = ModuleService.loadModules(json.encode(rawEstimate["modules"]));
   }
 }
