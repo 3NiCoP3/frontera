@@ -116,8 +116,8 @@ class HomePageState extends State<HomePage> {
                       height: 70.0,
                       child: Image.asset("assets/madera_logo.png",
                           fit: BoxFit.contain)),
-                  SizedBox(height: 10.0),
-                  searchBar()
+                  SizedBox(height: 10.0)
+
                 ],
               ),
             ),

@@ -108,7 +108,7 @@ class _CustomersAutoCompleteState extends State<CustomersAutoComplete> {
                   itemFilter: (item, query) {
                     return item.lastName
                         .toLowerCase()
-                        .startsWith(query.toLowerCase());
+                        .contains(query.toLowerCase());
                   },
                   itemSorter: (a, b) {
                     return a.lastName.compareTo(b.lastName);

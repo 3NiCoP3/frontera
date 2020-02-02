@@ -285,7 +285,7 @@ class DevisPageState extends State<DevisPage> {
                                 itemFilter: (item, query) {
                                   return item.name
                                       .toLowerCase()
-                                      .startsWith(query.toLowerCase());
+                                      .contains(query.toLowerCase());
                                 },
                                 itemSorter: (a, b) {
                                   return a.name.compareTo(b.name);
