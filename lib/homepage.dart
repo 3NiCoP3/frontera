@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontera/devis_page.dart';
+import 'package:frontera/editDevis.dart';
 import 'components/roundedButton.dart';
 
 void main() => runApp(MyApp());
@@ -66,7 +67,7 @@ class HomePageState extends State<HomePage> {
     children: <Widget>[
       RoundedButton('Création \nde Devis', 'assets/devis.png', DevisPage()),
       VerticalDivider(color: Colors.transparent, width: 40.0),
-      RoundedButton('Modification \nde Devis', 'assets/gomme.png', null),
+      RoundedButton('Modification \nde Devis', 'assets/gomme.png', EditDevisPage()),
     ],
   );
 

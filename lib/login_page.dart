@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontera/services/api/EstimateService.dart';
-import 'package:frontera/services/api/api.dart';
-import 'package:frontera/services/api/httpRequest.dart';
 import 'package:frontera/services/api/userService.dart';
 import 'homepage.dart';
-import 'package:http/http.dart' as http;
 
 void main() => runApp(new MyApp());
 
@@ -95,6 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                   Image.asset("assets/madera_logo.png", fit: BoxFit.contain)),
           new Container(
             child: new TextField(
+              keyboardType: TextInputType.emailAddress,
               textAlign: TextAlign.center,
               controller: _emailFilter,
               style: TextStyle(color: Colors.white),
@@ -201,11 +199,8 @@ class _LoginPageState extends State<LoginPage> {
   // These functions can self contain any user auth logic required, they all have access to _email and _password
   void _passwordReset() async {
     var estimates = await EstimateService.getEstimates();
-    print(estimates);
     for (var i = 0; i < estimates.length; i++) {
-      print(estimates[i].reference);
       for (var a = 0; a < estimates[i].modules.length; a++) {
-        print(estimates[i].modules[a].name);
       }
     }
     print("The user wants a password reset request sent to $_email");

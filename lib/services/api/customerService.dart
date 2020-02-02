@@ -19,4 +19,16 @@ class CustomerService extends Api {
     } else
       new Text('Probléme récupération des clients');
   }
+
+  static getCustomerById(int id)async{
+    print("userId : " +id.toString());
+    List<Customer> customers = await CustomerService.getCustomers();
+    for (var i =0; i < customers.length; i++){
+      print("customerId : "+ customers[i].id.toString());
+      print(customers[i].id == id);
+      if (customers[i].id == id){
+        return customers[i];
+      }
+    }
+  }
 }
