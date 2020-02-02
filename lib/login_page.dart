@@ -199,11 +199,8 @@ class _LoginPageState extends State<LoginPage> {
   // These functions can self contain any user auth logic required, they all have access to _email and _password
   void _passwordReset() async {
     var estimates = await EstimateService.getEstimates();
-    print(estimates);
     for (var i = 0; i < estimates.length; i++) {
-      print(estimates[i].reference);
       for (var a = 0; a < estimates[i].modules.length; a++) {
-        print(estimates[i].modules[a].name);
       }
     }
     print("The user wants a password reset request sent to $_email");

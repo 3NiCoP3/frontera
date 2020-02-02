@@ -25,7 +25,6 @@ class EstimateService {
           .add({"id": modulesList[i].id, "count": modulesList[i].count});
     }
     body["modulesList"] = partialModulesList;
-    print(jsonEncode(body));
     var response = await Api.call(new HttpRequest(HttpVerb.post, "estimates",
         jsonEncode(body), {"Content-Type": "application/json"}));
   }

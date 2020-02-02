@@ -40,8 +40,6 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
 
   setCustomer()async{
     Customer customer = await CustomerService.getCustomerById(selectedEstimate.clientId);
-    print(customer);
-    print(customer.lastName);
     setState((){
       estimateCustomer = [customer];
     });
@@ -134,8 +132,9 @@ class _DevisSearchAutoCompleteState extends State<DevisSearchAutoComplete> {
           ),
           SizedBox(height: 10.00),
           if(estimateCustomer.length != 0) CustomerIdentity(estimateCustomer,(Customer c){}),
+          SizedBox(height: 10.00),
           if(selectedEstimate!= null) EstimateDisplay(selectedEstimate),
-
+          SizedBox(height: 10.00),
           ModuleSearchDataTable(selectedEstimate, deleteEstimate, deleteModule),
         ],
       ),

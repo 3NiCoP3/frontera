@@ -6,32 +6,29 @@ import 'package:frontera/classes/module.dart';
 import 'package:frontera/services/api/EstimateService.dart';
 
 typedef EstimateCallBack = void Function(Estimate estimate);
-typedef ModuleCallBack= void Function(Module estimate);
+typedef ModuleCallBack = void Function(Module estimate);
 
 class ModuleSearchDataTable extends StatelessWidget {
   Estimate selectedEstimate;
   final EstimateCallBack deleteEstimate;
   final ModuleCallBack deleteModule;
 
-  ModuleSearchDataTable(this.selectedEstimate, this.deleteEstimate, this.deleteModule);
+  ModuleSearchDataTable(
+      this.selectedEstimate, this.deleteEstimate, this.deleteModule);
 
   _modules(String reference) async {
     var estimates = await EstimateService.getEstimates();
     for (var i = 0; i < estimates.length; i++) {
-      if (reference == estimates[i].reference){
+      if (reference == estimates[i].reference) {
         return estimates[i].modules;
       }
-//      for (var a = 0; a < estimates[i].modules.length; a++) {
-//        print(estimates[i].modules[a].name);
-//        return estimates[i].modules[a].name;
-//      }
     }
   }
 
   List<DataRow> rowDevis() {
     List<DataRow> myList = [];
     //return immediatly if devis list is empty
-    if (selectedEstimate == null){
+    if (selectedEstimate == null) {
       return myList;
     }
     for (var i = 0; i < selectedEstimate.modules.length; i++) {
@@ -45,7 +42,8 @@ class ModuleSearchDataTable extends StatelessWidget {
         DataCell(Text(selectedEstimate.modules[i].priceWithVat.toString(),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16))),
-        DataCell(Text((selectedEstimate.modules[i].priceWithVat * 0.80).toString(),
+        DataCell(Text(
+            (selectedEstimate.modules[i].priceWithVat * 0.80).toString(),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16))),
       ]));
