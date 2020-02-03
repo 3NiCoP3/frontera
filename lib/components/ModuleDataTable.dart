@@ -20,10 +20,10 @@ class ModuleDataTable extends StatelessWidget {
         DataCell(Text(selectedModules[i].name,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 24))),
-        DataCell(Text(selectedModules[i].count.toString(),
+        DataCell(Text(selectedModules[i].count.toStringAsFixed(2),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 24))),
-        DataCell(Text(selectedModules[i].priceWithVat.toString(),
+        DataCell(Text(selectedModules[i].priceWithVat.toStringAsFixed(2),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 24))),
         DataCell(Text('20',
@@ -31,7 +31,7 @@ class ModuleDataTable extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontSize: 24))),
         DataCell(Text(
             (selectedModules[i].priceWithVat * selectedModules[i].count)
-                .toString(),
+                .toStringAsFixed(2),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 24))),
       ]));

@@ -39,11 +39,13 @@ class ModuleSearchDataTable extends StatelessWidget {
         DataCell(Text(selectedEstimate.modules[i].name,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16))),
-        DataCell(Text(selectedEstimate.modules[i].priceWithVat.toString(),
+        DataCell(Text(
+            selectedEstimate.modules[i].priceWithVat.toStringAsFixed(2),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16))),
         DataCell(Text(
-            (selectedEstimate.modules[i].priceWithVat * 0.80).toString(),
+            (selectedEstimate.modules[i].priceWithVat * 0.80)
+                .toStringAsFixed(2),
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontSize: 16))),
       ]));

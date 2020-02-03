@@ -45,6 +45,7 @@ flutter:
     - assets/gomme.png
     - assets/simu_3D.png
     - assets/base_client.png
+    - assets/en_construction.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
