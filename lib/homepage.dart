@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontera/devis_page.dart';
 import 'package:frontera/editDevis.dart';
+import 'package:frontera/toBuild.dart';
 import 'components/roundedButton.dart';
 
 void main() => runApp(MyApp());
@@ -75,9 +76,9 @@ class HomePageState extends State<HomePage> {
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
-      RoundedButton('Simulateur\n 3D', 'assets/simu_3D.png', null),
+      RoundedButton('Simulateur\n 3D', 'assets/simu_3D.png',ToBuild()),
       VerticalDivider(color: Colors.transparent, width: 40.0),
-      RoundedButton('Base Clients', 'assets/base_client.png', null),
+      RoundedButton('Base Clients', 'assets/base_client.png', ToBuild()),
     ],
   );
 

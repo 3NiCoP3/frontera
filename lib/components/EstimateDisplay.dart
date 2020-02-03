@@ -9,27 +9,27 @@ typedef EstimateCallBack = void Function(Estimate estimate);
 class EstimateDisplay extends StatelessWidget {
   Estimate estimate;
   final EstimateCallBack deleteEstimate;
+
 //  final DevisCallBack deleteCustomer;
 
   EstimateDisplay(this.estimate, this.deleteEstimate);
 
   List<DataRow> rowModule() {
     List<DataRow> myList = [];
-      myList.add(DataRow(cells: [
-        DataCell(Icon(Icons.delete, color: Colors.white), onTap: () {
-          deleteEstimate(estimate);
-        }),
-        DataCell(Text(estimate.reference,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontSize: 16))),
-        DataCell(Text(estimate.taxfreeTotalPrice.toString(),
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontSize: 16))),
-        DataCell(Text(estimate.totalPriceIncTax.toString(),
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontSize: 16))),
-      ]));
-
+    myList.add(DataRow(cells: [
+      DataCell(Icon(Icons.delete, color: Colors.white), onTap: () {
+        deleteEstimate(estimate);
+      }),
+      DataCell(Text(estimate.reference,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white, fontSize: 16))),
+      DataCell(Text(estimate.taxfreeTotalPrice.toStringAsFixed(2),
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white, fontSize: 16))),
+      DataCell(Text(estimate.totalPriceIncTax.toStringAsFixed(2),
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white, fontSize: 16))),
+    ]));
 
     return myList;
   }
@@ -47,9 +47,9 @@ class EstimateDisplay extends StatelessWidget {
           child: DataTable(columns: [
             DataColumn(
                 label: Text(
-                  '',
-                  textAlign: TextAlign.center,
-                )),
+              '',
+              textAlign: TextAlign.center,
+            )),
             DataColumn(
                 label: Text('Reference',
                     textAlign: TextAlign.center,
